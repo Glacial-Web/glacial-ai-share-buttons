@@ -1,0 +1,24 @@
+# PHP / WordPress
+*.log
+*.bak
+*.tmp
+.env
+wp-config.php
+uploads/
+cache/
+vendor/
+composer.lock
+
+# AI / Plugin Secrets
+cursor_api_key.txt
+*.secret
+*.local
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+*.swp
