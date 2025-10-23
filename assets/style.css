@@ -1,1 +1,196 @@
+:root {
+    --ai-gap-xs: 12px;
+    --ai-gap-sm: 16px;
+    --ai-gap-md: 20px;
+    --ai-gap-lg: 24px;
+    --ai-gap-xl: 30px;
+    
+    --ai-container-max-width: 1000px;
+    --ai-container-max-width-desktop: 900px;
+    --ai-button-height: 56px;
+    --ai-button-height-mobile: 52px;
+    --ai-button-padding: 16px 24px;
+    --ai-button-padding-mobile: 14px 20px;
+    
+    --ai-radius-base: 12px;
+    --ai-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    
+    --ai-border: #e5e7eb;
+    --ai-shadow: rgba(0, 0, 0, 0.1);
+}
 
+@media (prefers-color-scheme: dark) {
+    :root {
+        --ai-border: #374151;
+        --ai-shadow: rgba(0, 0, 0, 0.3);
+    }
+}
+
+.ai-share-buttons-container {
+    margin: 40px 0;
+    padding: var(--ai-gap-xl) 0;
+    border-top: 1px solid var(--ai-border);
+    border-bottom: 1px solid var(--ai-border);
+}
+
+.ai-share-buttons-heading {
+    text-align: center;
+    margin-bottom: var(--ai-gap-xl);
+}
+
+.ai-share-buttons-heading p {
+    margin: 0;
+}
+
+.ai-share-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--ai-gap-sm);
+    max-width: var(--ai-container-max-width-desktop);
+    margin: 0 auto;
+    padding: 0 var(--ai-gap-md);
+    justify-items: stretch;
+}
+
+
+.ai-share-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: var(--ai-gap-xs) !important;
+    
+    padding: var(--ai-button-padding);
+    min-height: var(--ai-button-height);
+    box-sizing: border-box;
+    margin: 0 !important;
+    
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    
+    border: 2px solid transparent;
+    border-radius: var(--ai-radius-base);
+    box-shadow: var(--ai-shadow-sm);
+    
+    position: relative;
+    /* overflow: hidden; */
+}
+
+.ai-share-button svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.ai-share-button span {
+    white-space: nowrap;
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+}
+
+.ai-share-button:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+.ai-share-button:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.ai-share-button.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.ai-share-button.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Admin interface styling */
+input.error {
+    border-color: #dc3232 !important;
+    box-shadow: 0 0 2px rgba(220, 50, 50, 0.8) !important;
+}
+
+@media (prefers-contrast: high) {
+    .ai-share-button {
+        border-width: 3px;
+        font-weight: 700;
+    }
+    
+    .ai-share-button:hover {
+        box-shadow: 0 0 0 3px currentColor;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ai-share-button {
+        transition: none;
+    }
+    
+    .ai-share-button:hover {
+        transform: none;
+    }
+    
+    .ai-share-button:hover svg {
+        transform: none;
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 991px) {
+    .ai-share-buttons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--ai-gap-xs);
+    }
+}
+
+@media (max-width: 767px) {
+    .ai-share-buttons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--ai-gap-xs);
+        padding: 0 var(--ai-gap-sm);
+        justify-items: stretch;
+    }
+    .ai-share-button {
+        padding: var(--ai-button-padding-mobile);
+        font-size: 14px;
+        min-height: var(--ai-button-height-mobile);
+    }
+    
+    .ai-share-button svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 479px) {
+    .ai-share-buttons-heading {
+        margin-bottom: var(--ai-gap-md) !important;
+    }
+    .ai-share-buttons {
+        padding: 0 var(--ai-gap-xs) !important;
+        gap: 8px !important;
+    }
+    .ai-share-button {
+        padding: var(--ai-button-padding-mobile) !important;
+        font-size: 13px !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+}
