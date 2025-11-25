@@ -4,7 +4,7 @@
  * Plugin Name: Glacial AI Share Buttons
  * Plugin URI: https://glacial.com
  * Description: Adds AI-powered share buttons at the end of blog posts to help readers explore content with various AI services.
- * Version: 1.3.1
+ * Version: 1.3.2
  * Author: Glacial Multimedia
  * License: GPL v2 or later
  * Text Domain: glacial-ai-share-buttons
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('AI_SHARE_BUTTONS_VERSION', '1.3.1');
+define('AI_SHARE_BUTTONS_VERSION', '1.3.2');
 define('AI_SHARE_BUTTONS_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('AI_SHARE_BUTTONS_PLUGIN_URL', plugin_dir_url(__FILE__));
 
@@ -276,12 +276,35 @@ class AI_Share_Buttons
         // Get all public post types
         $post_types = get_post_types(array('public' => true), 'objects');
         
+        // List of post types to exclude (system/data post types that aren't content)
+        $excluded_post_types = array(
+            'attachment',
+            'saswp',              // Structured Data
+            'saswp_reviews',      // Reviews
+            'saswp-collections',  // Collections
+            'nav_menu_item',      // Navigation menu items
+            'revision',           // Post revisions
+            'custom_css',         // Custom CSS
+            'customize_changeset', // Customizer changesets
+            'oembed_cache',      // oEmbed cache
+            'user_request',      // User data requests
+            'wp_block',          // Reusable blocks
+        );
+        
         echo '<p class="description">' . __('Select which post types should have the AI share buttons meta box available. Checking a post type will add the "Show/Hide AI buttons" options to that post type\'s editor. Buttons will only display when explicitly enabled via the meta box or when "Add AI Buttons on All Posts" is enabled.', 'glacial-ai-share-buttons') . '</p>';
         
         foreach ($post_types as $post_type) {
-            // Skip attachment post type
-            if ($post_type->name === 'attachment') {
+            // Skip excluded post types
+            if (in_array($post_type->name, $excluded_post_types)) {
                 continue;
+            }
+            
+            // Only show post types that are publicly queryable (have front-end views)
+            if (!isset($post_type->publicly_queryable) || !$post_type->publicly_queryable) {
+                // Allow exceptions for post and page which might not have publicly_queryable set
+                if (!in_array($post_type->name, array('post', 'page'))) {
+                    continue;
+                }
             }
             
             $checked = in_array($post_type->name, $selected_post_types) ? 'checked' : '';
