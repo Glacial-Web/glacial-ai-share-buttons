@@ -1,10 +1,10 @@
 === Glacial AI Share Buttons ===
-Contributors: Billy
+Contributors: Billy, Jamieson, Greg, Denmark
 Tags: ai, share, buttons, chatgpt, claude, perplexity, grok, google ai
 Requires at least: 5.0
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,11 +12,11 @@ Add AI-powered share buttons at the end of blog posts to help readers explore co
 
 == Description ==
 
-Glacial AI Share Buttons is a WordPress plugin that automatically adds share buttons for popular AI services at the end of your blog posts. This helps readers quickly analyze and summarize your content using their preferred AI tool.
+Glacial AI Share Buttons is a WordPress plugin that adds share buttons for popular AI services at the end of your blog posts. This helps readers quickly analyze and summarize your content using their preferred AI tool.
 
 **Features:**
 
-* Automatically injects AI share buttons at the end of blog post content
+* Injects AI share buttons at the end of blog post content
 * Supports 6 popular AI services: Google AI Mode, ChatGPT, Perplexity, Claude, Grok, and Meta AI
 * Custom AI tool repeater feature to add unlimited custom AI services
 * Custom URL configuration for each AI service
@@ -27,7 +27,7 @@ Glacial AI Share Buttons is a WordPress plugin that automatically adds share but
 * Flexible per-post controls with both "Show" and "Hide" options for maximum customization
 * Global "Add AI buttons on ALL posts" setting for site-wide control
 * Custom post type selector to choose which content types display AI buttons
-* Responsive CSS Grid layout that adapts to different screen sizes with optimized mobile layout (2 columns on mobile)
+* Responsive Flexbox layout that adapts to different screen sizes with optimized mobile layout (2 columns on mobile)
 * Theme-aware styling that inherits your theme's button styles
 * Accessibility features including high contrast and reduced motion support
 * Dark mode support
@@ -105,6 +105,14 @@ Yes! In the Glacial AI Share Buttons settings, you'll find a "Post Types" sectio
 
 == Changelog ==
 
+= 1.3.1 =
+* **Flexbox Layout Implementation**: Replaced CSS Grid with Flexbox for better responsive behavior
+* **Flexible Button Sizing**: Buttons now use `flex: 1 1 calc(33.333% - var(--ai-gap-sm))` for 3 buttons per row on desktop
+* **Automatic Wrapping**: Buttons automatically wrap based on available space using `flex-wrap: wrap`
+* **Minimum Width Protection**: Added `min-width: 180px` to prevent buttons from becoming too narrow
+* **Container Flexibility**: Layout works perfectly regardless of parent container width (60%, 100%, etc.)
+* **Improved Responsiveness**: Better adaptation to different screen sizes and container widths
+
 = 1.3.0 =
 * **Reversed Logic & Enhanced Control**: Completely reversed the default behavior - AI buttons are now hidden by default and must be explicitly enabled
 * **Global "Add AI buttons on ALL posts" Setting**: New admin checkbox to enable AI buttons on all posts site-wide
@@ -133,7 +141,7 @@ Yes! In the Glacial AI Share Buttons settings, you'll find a "Post Types" sectio
 * **SQL Injection Protection**: Implemented robust security measures to prevent SQL injection attacks
 * **Real-time Validation**: Added live URL validation with immediate feedback for users
 * **Data Sanitization**: Enhanced input sanitization and validation throughout the plugin
-* **Mobile Layout Optimization**: Updated mobile grid layout to use 2 columns (repeat(2, 1fr)) for better button arrangement on smaller screens
+* **Mobile Layout Optimization**: Updated mobile flexbox layout to use 2 columns for better button arrangement on smaller screens
 
 = 1.2.0 =
 * **Meta AI Integration**: Added support for Meta AI service with dedicated button and URL configuration
@@ -144,7 +152,7 @@ Yes! In the Glacial AI Share Buttons settings, you'll find a "Post Types" sectio
 
 = 1.1.0 =
 * **Enhanced Theme Integration**: Buttons now inherit your website's theme styling using the `ui-button` class for seamless design consistency
-* **Improved Grid Layout**: Updated to use `repeat(3, 1fr)` for optimal button arrangement - 3 buttons on the first row, 2 buttons on the second row
+* **Improved Flexbox Layout**: Updated to use flexbox with flexible sizing for optimal button arrangement - 3 buttons on the first row, 2 buttons on the second row
 * **Authentic Brand Logos**: Replaced generic icons with official brand SVG logos for all AI services
 * **Smart Post Type Filtering**: Buttons now only appear on blog posts, automatically excluding other post types (pages, custom post types, etc.)
 * **Default Button Configuration**: All AI service buttons are now enabled by default for immediate functionality
@@ -155,11 +163,14 @@ Yes! In the Glacial AI Share Buttons settings, you'll find a "Post Types" sectio
 * Support for 5 AI services
 * Admin settings page
 * Per-post exclude option
-* Responsive CSS Grid layout
+* Responsive Flexbox layout
 * Theme integration
 * Accessibility features
 
 == Upgrade Notice ==
+
+= 1.3.1 =
+Layout update with improved flexbox implementation for better responsive behavior and container flexibility. Buttons now automatically wrap and adapt to any container width while maintaining optimal sizing.
 
 = 1.3.0 =
 Major update with reversed logic and enhanced control options. AI buttons are now hidden by default, giving you complete control over where they appear. New global "Add AI buttons on ALL posts" setting and dual per-post controls (Show/Hide) provide maximum flexibility. Includes smart conflict resolution and improved user experience.
