@@ -2,10 +2,10 @@
 
 /**
  * Plugin Name: Glacial AI Share Buttons
- * Plugin URI: https://your-website.com
+ * Plugin URI: https://glacial.com
  * Description: Adds AI-powered share buttons at the end of blog posts to help readers explore content with various AI services.
- * Version: 1.3.0
- * Author: Billy Susanto (Glacial Multimedia)
+ * Version: 1.3.1
+ * Author: Glacial Multimedia
  * License: GPL v2 or later
  * Text Domain: glacial-ai-share-buttons
  */
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('AI_SHARE_BUTTONS_VERSION', '1.3.0');
+define('AI_SHARE_BUTTONS_VERSION', '1.3.1');
 define('AI_SHARE_BUTTONS_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('AI_SHARE_BUTTONS_PLUGIN_URL', plugin_dir_url(__FILE__));
 
@@ -39,7 +39,7 @@ class AI_Share_Buttons
 
     public function enqueue_scripts()
     {
-        if (is_single() && $this->should_show_buttons()) {
+        if (is_singular() && $this->should_show_buttons()) {
             wp_enqueue_style(
                 'ai-share-buttons-style',
                 AI_SHARE_BUTTONS_PLUGIN_URL . 'assets/style.css',
@@ -276,7 +276,7 @@ class AI_Share_Buttons
         // Get all public post types
         $post_types = get_post_types(array('public' => true), 'objects');
         
-        echo '<p class="description">' . __('Select which post types should display AI share buttons. Default: Posts only.', 'glacial-ai-share-buttons') . '</p>';
+        echo '<p class="description">' . __('Select which post types should have the AI share buttons meta box available. Checking a post type will add the "Show/Hide AI buttons" options to that post type\'s editor. Buttons will only display when explicitly enabled via the meta box or when "Add AI Buttons on All Posts" is enabled.', 'glacial-ai-share-buttons') . '</p>';
         
         foreach ($post_types as $post_type) {
             // Skip attachment post type
@@ -302,9 +302,9 @@ class AI_Share_Buttons
         
         echo '<label>';
         echo '<input type="checkbox" name="ai_share_buttons_options[show_on_all_posts]" value="1" ' . checked($show_on_all_posts, 1, false) . ' /> ';
-        echo __('Enable AI buttons on all posts by default. (Individual posts can still override this setting)', 'glacial-ai-share-buttons');
+        echo __('Add AI buttons on all posts of selected post types by default', 'glacial-ai-share-buttons');
         echo '</label>';
-        echo '<p class="description">' . __('When enabled, AI buttons will appear on all posts of the selected post types unless specifically disabled on individual posts.', 'glacial-ai-share-buttons') . '</p>';
+        echo '<p class="description">' . __('When enabled, AI buttons will automatically appear on all posts of the selected post types. Individual posts can still override this by using the "Hide AI buttons" option in the post editor. If disabled, buttons will only show when explicitly enabled via the "Show AI buttons" option in the post editor.', 'glacial-ai-share-buttons') . '</p>';
     }
 
     public function admin_page()
@@ -420,11 +420,12 @@ class AI_Share_Buttons
     {
         global $post;
 
-        if (!is_single() || !$post) {
+        if (!is_singular() || !$post) {
             return false;
         }
 
         // Check if the current post type is in the selected post types
+        // This determines if the meta box is available, but doesn't automatically show buttons
         $options = get_option('ai_share_buttons_options');
         $selected_post_types = isset($options['post_types']) ? $options['post_types'] : array('post');
         
@@ -436,38 +437,31 @@ class AI_Share_Buttons
             $selected_post_types = array('post');
         }
         
+        // If this post type is not in the selected list, don't show buttons
         if (!in_array($post->post_type, $selected_post_types)) {
             return false;
         }
 
-        // Check if "show on all posts" is enabled
-        $show_on_all_posts = isset($options['show_on_all_posts']) ? $options['show_on_all_posts'] : 0;
-        
-        // Check if this specific post has been set to show or hide buttons
-        $show_buttons = get_post_meta($post->ID, '_ai_share_buttons_show', true);
+        // Check if this specific post has been set to hide buttons (highest priority)
         $hide_buttons = get_post_meta($post->ID, '_ai_share_buttons_hide', true);
-        
-        // If the post has been explicitly set to hide buttons, don't show them
         if ($hide_buttons) {
             return false;
         }
         
-        // If the post has been explicitly set to show buttons, show them
+        // Check if this specific post has been explicitly set to show buttons
+        $show_buttons = get_post_meta($post->ID, '_ai_share_buttons_show', true);
         if ($show_buttons) {
             return true;
         }
         
-        // If the post has been explicitly set to not show buttons (empty value means not set), don't show them
-        if ($show_buttons === '0') {
-            return false;
-        }
-        
-        // If "show on all posts" is enabled and the post hasn't been explicitly disabled, show them
+        // Check if "show on all posts" is enabled (global setting)
+        // This allows buttons to show on all posts of selected types unless explicitly hidden
+        $show_on_all_posts = isset($options['show_on_all_posts']) ? $options['show_on_all_posts'] : 0;
         if ($show_on_all_posts) {
             return true;
         }
 
-        // Default behavior: don't show buttons unless explicitly enabled
+        // Default behavior: don't show buttons unless explicitly enabled via meta box or global setting
         return false;
     }
 
