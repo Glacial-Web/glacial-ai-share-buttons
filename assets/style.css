@@ -43,17 +43,18 @@
 }
 
 .ai-share-buttons {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-wrap: wrap;
     gap: var(--ai-gap-sm);
     max-width: var(--ai-container-max-width-desktop);
     margin: 0 auto;
     padding: 0 var(--ai-gap-md);
-    justify-items: stretch;
 }
 
-
 .ai-share-button {
+    flex: 1 1 calc(33.333% - var(--ai-gap-sm));
+    min-width: 180px;
+    
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -74,7 +75,6 @@
     box-shadow: var(--ai-shadow-sm);
     
     position: relative;
-    /* overflow: hidden; */
 }
 
 .ai-share-button svg {
@@ -85,8 +85,6 @@
 
 .ai-share-button span {
     white-space: nowrap;
-    /* overflow: hidden; */
-    /* text-overflow: ellipsis; */
 }
 
 .ai-share-button:focus {
@@ -115,12 +113,6 @@
     border-top: 2px solid currentColor;
     border-radius: 50%;
     animation: spin 1s linear infinite;
-}
-
-/* Admin interface styling */
-input.error {
-    border-color: #dc3232 !important;
-    box-shadow: 0 0 2px rgba(220, 50, 50, 0.8) !important;
 }
 
 @media (prefers-contrast: high) {
@@ -154,20 +146,21 @@ input.error {
 }
 
 @media (max-width: 991px) {
-    .ai-share-buttons {
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--ai-gap-xs);
+    .ai-share-button {
+        flex: 1 1 calc(50% - var(--ai-gap-sm));
+        min-width: 150px;
     }
 }
 
 @media (max-width: 767px) {
     .ai-share-buttons {
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--ai-gap-xs);
         padding: 0 var(--ai-gap-sm);
-        justify-items: stretch;
+        gap: var(--ai-gap-xs);
     }
+    
     .ai-share-button {
+        flex: 1 1 calc(50% - var(--ai-gap-xs));
+        min-width: 140px;
         padding: var(--ai-button-padding-mobile);
         font-size: 14px;
         min-height: var(--ai-button-height-mobile);
@@ -183,14 +176,23 @@ input.error {
     .ai-share-buttons-heading {
         margin-bottom: var(--ai-gap-md) !important;
     }
+    
     .ai-share-buttons {
         padding: 0 var(--ai-gap-xs) !important;
         gap: 8px !important;
     }
+    
     .ai-share-button {
+        flex: 1 1 calc(50% - 8px);
+        min-width: 0; 
         padding: var(--ai-button-padding-mobile) !important;
         font-size: 13px !important;
         margin: 0 !important;
-        width: 100% !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .ai-share-button {
+        flex: 1 1 100%;
     }
 }
