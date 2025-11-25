@@ -4,7 +4,7 @@ Tags: ai, share, buttons, chatgpt, claude, perplexity, grok, google ai
 Requires at least: 5.0
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,12 @@ Yes! In the Glacial AI Share Buttons settings, you'll find a "Post Types" sectio
 
 == Changelog ==
 
+= 1.3.2 =
+* **Post Type Filtering**: Improved post type selector to exclude system and data post types that aren't meant for displaying share buttons
+* **Smart Post Type Detection**: Added intelligent filtering to only show publicly queryable content post types
+* **Excluded System Post Types**: Automatically filters out structured data, reviews, collections, and other system post types from the settings page
+* **Enhanced User Experience**: Settings page now only displays relevant content post types (Posts, Pages, Doctors, Locations, etc.) instead of all registered post types
+
 = 1.3.1 =
 * **Flexbox Layout Implementation**: Replaced CSS Grid with Flexbox for better responsive behavior
 * **Flexible Button Sizing**: Buttons now use `flex: 1 1 calc(33.333% - var(--ai-gap-sm))` for 3 buttons per row on desktop
@@ -168,6 +174,9 @@ Yes! In the Glacial AI Share Buttons settings, you'll find a "Post Types" sectio
 * Accessibility features
 
 == Upgrade Notice ==
+
+= 1.3.2 =
+Post type filtering update that automatically excludes system and data post types from the settings page. The post type selector now only shows relevant content post types, making it easier to configure which content types display AI share buttons.
 
 = 1.3.1 =
 Layout update with improved flexbox implementation for better responsive behavior and container flexibility. Buttons now automatically wrap and adapt to any container width while maintaining optimal sizing.
